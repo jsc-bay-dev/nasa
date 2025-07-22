@@ -1,14 +1,27 @@
 import useSWR from 'swr';
 import './App.css'
 
+const fetcher = async (url) => {
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(`API Error: ${response.state} - ${response.statusText}`)
+  }
+
+  return response.json();
+}
+
 function App() {
+  const API_KEY = 'GJi5Y9SQHC1A01m7GnIdQVKunnRnOWobtZZGjeWL'
+  const API_URL = `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}`
 
-  const api_key = 'GJi5Y9SQHC1A01m7GnIdQVKunnRnOWobtZZGjeWL';
-  const api_url = `https://api.nasa.gov/planetary/apod?api_key=${api_key}`;
 
-  const fetcher = (...args) => fetch(...args).then(res => res.json());
-
-  const { data, error, isLoading } = useSWR(api_url, fetcher)
+  const { data, error, isLoading, mutate } = useSWR(API_URL, fetcher, {
+    revalidateOnFocus: false,
+    dedupingInterval: 300000,
+    errorRetryCount: 3,
+    errorRetryInterval: 5000
+  })
 
   if (isLoading) {
     return <div className="isLoading">Loading...</div>
@@ -17,7 +30,7 @@ function App() {
   if (error) {
     return <div className="error">Error: {error.masssage}</div>
   }
-  
+
 
   return (
     <div className="app">
