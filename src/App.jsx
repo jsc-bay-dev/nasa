@@ -92,11 +92,88 @@ const MediaComponent = ({ data }) => {
         }}
       />
     )
+
+    
   }
 
   if (isLoading) return <LoadingComponent />
   if (error) return <ErrorComponent error={error} />
   if (!data) return <ErrorComponent error={{ message: 'No data received' }} />
+
+  return (
+    <div className="app">
+      <header className="header">
+        <h1>NASA Astronomy Picture of the Day</h1>
+        <p className="header-subtitle">Discover the cosmos! Each day a different image or photograph of our fascinating universe.</p>
+      </header>
+      
+      <main className="main">
+        <article className="astronomy_photo_of_the_day">
+          <header className="content-header">
+            <h2>{data.title}</h2>
+            <div className="metadata">
+              <time dateTime={data.date} className="date">
+                {new Date(data.date).toLocaleDateString('en-US', { 
+                  weekday: 'long', 
+                  year: 'numeric', 
+                  month: 'long', 
+                  day: 'numeric' 
+                })}
+              </time>
+              {data.copyright && (
+                <span className="copyright" aria-label={`Copyright ${data.copyright}`}>
+                  © {data.copyright}
+                </span>
+              )}
+            </div>
+          </header>
+
+          <div className="media-container">
+            <MediaComponent data={data} />
+            <div className="image-error" style={{ display: 'none' }}>
+              <p>Failed to load image</p>
+              <button onClick={() => mutate()}>Retry</button>
+            </div>
+          </div>
+
+          <div className="content-description">
+            <h3>About this image</h3>
+            <p className="explanation">{data.explanation}</p>
+          </div>
+
+          {data.hdurl && (
+            <div className="actions">
+              <a 
+                href={data.hdurl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hd-link"
+                aria-label="View high-definition version in new tab"
+              >
+                View HD Version
+              </a>
+            </div>
+          )}
+        </article>
+      </main>
+
+      <footer className="app-footer">
+        <p>
+          Powered by{' '}
+          <a 
+            href="https://api.nasa.gov/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            aria-label="Visit NASA API website"
+          >
+            NASA API
+          </a>
+        </p>
+      </footer>
+    </div>
+  )
+
+  
 }
 
 export default App
