@@ -62,21 +62,37 @@ const ErrorComponent = ({ error }) => (
     </div>
   )
 
+const MediaComponent = ({ data }) => {
+    const isVideo = data?.media_type === 'video'
+    
+    if (isVideo) {
+      return (
+        <iframe 
+          src={data.url}
+          title={data.title}
+          className="media-content video-content"
+          width="100%"
+          height="400"
+          frameBorder="0"
+          allowFullScreen
+          loading="lazy"
+        />
+      )
+    }
 
-return (
-  <div className="app">
-    <div className="header">NASA Astronomy Photo of the Day</div>
-    <div className="main">
-      <div className="astronomy_photo_of_the_day">
-        <h1 className="apod_title">{data?.title}</h1>
-        <img className="astronomy_photo_of_the_day" id="apod_image" src={data?.url} alt={data?.title}></img>
-        <p className="astronomy_photo_of_the_day" id="apod_caption">{data?.explanation}</p>
-        <p className="astronomy_photo_of_the_day" id="apod_date">{data?.date}</p>
-        <p className="astronomy_photo_of_the_day" id="apod_copyright">{data?.copyright && ` | © ${data.copyright}`}</p>
-      </div>
-    </div>
-  </div>
-)
+    return (
+      <img 
+        src={data.url} 
+        alt={data.title}
+        className="media-content image-content"
+        loading="lazy"
+        onError={(e) => {
+          e.target.style.display = 'none'
+          e.target.nextSibling.style.display = 'block'
+        }}
+      />
+    )
+  }
 }
 
 export default App
