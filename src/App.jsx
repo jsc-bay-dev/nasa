@@ -27,25 +27,39 @@ function App() {
     return <div className="isLoading">Loading...</div>
   }
 
-  if (error) {
-    return <div className="error">Error: {error.masssage}</div>
-  }
-
-
-  return (
+  const LoadingComponent = () => (
     <div className="app">
-      <div className="header">NASA Astronomy Photo of the Day</div>
-      <div className="main">
-        <div className="astronomy_photo_of_the_day">
-          <h1 className="apod_title">{data?.title}</h1>
-          <img className="astronomy_photo_of_the_day" id="apod_image" src={data?.url} alt={data?.title}></img>
-          <p className="astronomy_photo_of_the_day" id="apod_caption">{data?.explanation}</p>
-          <p className="astronomy_photo_of_the_day" id="apod_date">{data?.date}</p>
-          <p className="astronomy_photo_of_the_day" id="apod_copyright">{data?.copyright && ` | © ${data.copyright}`}</p>
+      <header className="header">
+        <h1>NASA Astronomy Picture of the Day</h1>
+      </header>
+      <main className="main">
+        <div className="loading" role="status" aria-live="polite">
+          <div className="loading-spinner" aria-hidden="true"></div>
+          Loading today's astronomy picture...
         </div>
-      </div>
+      </main>
     </div>
   )
+
+if (error) {
+  return <div className="error">Error: {error.masssage}</div>
+}
+
+
+return (
+  <div className="app">
+    <div className="header">NASA Astronomy Photo of the Day</div>
+    <div className="main">
+      <div className="astronomy_photo_of_the_day">
+        <h1 className="apod_title">{data?.title}</h1>
+        <img className="astronomy_photo_of_the_day" id="apod_image" src={data?.url} alt={data?.title}></img>
+        <p className="astronomy_photo_of_the_day" id="apod_caption">{data?.explanation}</p>
+        <p className="astronomy_photo_of_the_day" id="apod_date">{data?.date}</p>
+        <p className="astronomy_photo_of_the_day" id="apod_copyright">{data?.copyright && ` | © ${data.copyright}`}</p>
+      </div>
+    </div>
+  </div>
+)
 }
 
 export default App
