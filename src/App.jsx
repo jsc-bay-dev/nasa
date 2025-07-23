@@ -41,9 +41,26 @@ function App() {
     </div>
   )
 
-if (error) {
-  return <div className="error">Error: {error.masssage}</div>
-}
+const ErrorComponent = ({ error }) => (
+    <div className="app">
+      <header className="header">
+        <h1>NASA Astronomy Picture of the Day</h1>
+      </header>
+      <main className="main">
+        <div className="error" role="alert">
+          <h2>Oops! Something went wrong</h2>
+          <p>{error?.message || 'Failed to load astronomy picture'}</p>
+          <button 
+            onClick={() => mutate()} 
+            className="retry-button"
+            aria-label="Retry loading the astronomy picture"
+          >
+            Try Again
+          </button>
+        </div>
+      </main>
+    </div>
+  )
 
 
 return (
