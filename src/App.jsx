@@ -1,5 +1,6 @@
 import useSWR from 'swr';
 import './App.css'
+import logo from "./assets/nasa.png"
 
 const fetcher = async (url) => {
   const response = await fetch(url);
@@ -103,6 +104,12 @@ const MediaComponent = ({ data }) => {
   return (
     <div className="app">
       <header className="header">
+        <img
+          src={logo}
+          alt="NASA Logo"
+          className="nasa-logo"
+          style={{ height: 60, marginRight: 16, verticalAlign: 'middle' }}
+        />
         <h1>NASA Astronomy Picture of the Day</h1>
         <p className="header-subtitle">Discover the cosmos! Each day a different image or photograph of our fascinating universe.</p>
       </header>
