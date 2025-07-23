@@ -93,6 +93,10 @@ const MediaComponent = ({ data }) => {
       />
     )
   }
+
+  if (isLoading) return <LoadingComponent />
+  if (error) return <ErrorComponent error={error} />
+  if (!data) return <ErrorComponent error={{ message: 'No data received' }} />
 }
 
 export default App
